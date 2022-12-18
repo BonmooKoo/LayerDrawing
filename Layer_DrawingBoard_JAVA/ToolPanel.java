@@ -135,7 +135,7 @@ public class ToolPanel extends JPanel{
         img_process_type_JComboBox.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                //System.out.println(e);
+                System.out.println(e);
                 Tool.getTool().mode_imageP = img_process_type_JComboBox.getItemAt(img_process_type_JComboBox.getSelectedIndex());
             }
         });
@@ -143,11 +143,12 @@ public class ToolPanel extends JPanel{
         img_process_type_do_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Tool.getTool().mode_command=ImageProcessingCommand;
                 LayerManager lm=LayerManager.getLayerManager();
                 Layer l=lm.getCurLayer();
-
                 l.add(Command_Factory.makeCommand(null,null, null,0));
-                System.out.println(Tool.getTool().result);
+                
+                System.out.println("실행"+Tool.getTool().result);
             }
         });
         ImgProc_mode_panel.add(img_process_type_JComboBox);
