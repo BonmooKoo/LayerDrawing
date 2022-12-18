@@ -43,7 +43,6 @@ public class ImageMat {
         // ImageProcessing 이전까지만 불러오기
         curLayer.end_pointer--;
         curLayer.execute(g2d);
-        curLayer.end_pointer++;
 
         return img;
     }
@@ -134,7 +133,7 @@ public class ImageMat {
 
         // image 처리 후 Draw
         imageProcessing();
-        System.out.println("1");
+        System.out.println("run");
         if(g2d == null)
             g2d = m_tmpBuffered.createGraphics();
         g2d.drawImage(m_tmpBuffered, 0, 0, null);

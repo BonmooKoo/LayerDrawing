@@ -130,12 +130,11 @@ public class ToolPanel extends JPanel{
 
         img_process_type_label = new JLabel("이미지 처리");
         ImgProc_mode_panel.add(img_process_type_label);
-        mode_name[] img_process_type_choose = {imageP_Blur,imageP_CannyEdge,imageP_Grayscale,imageP_Colorinverse,imageP_Affine};
+        mode_name[] img_process_type_choose = {mode_name.imageP_Blur,mode_name.imageP_CannyEdge,mode_name.imageP_Grayscale,mode_name.imageP_Colorinverse,mode_name.imageP_Affine};
         img_process_type_JComboBox = new JComboBox<>(img_process_type_choose);
         img_process_type_JComboBox.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(e);
                 Tool.getTool().mode_imageP = img_process_type_JComboBox.getItemAt(img_process_type_JComboBox.getSelectedIndex());
             }
         });
@@ -143,12 +142,12 @@ public class ToolPanel extends JPanel{
         img_process_type_do_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 Tool.getTool().mode_command=ImageProcessingCommand;
                 LayerManager lm=LayerManager.getLayerManager();
                 Layer l=lm.getCurLayer();
                 l.add(Command_Factory.makeCommand(null,null, null,0));
-                
-                System.out.println("실행"+Tool.getTool().result);
+
             }
         });
         ImgProc_mode_panel.add(img_process_type_JComboBox);

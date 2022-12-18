@@ -71,11 +71,10 @@ public class Tool {
     }
 
     public Mat imageP_Colorinverse(Mat imgMat) {
-//        Imgproc.
         for(int i=0;i<imgMat.rows();i++){
             for (int j=0;j<imgMat.cols();j++){
                 for(int c=0;c<imgMat.channels();c++){
-//                    imgMat.at(Vector,i,j)=
+                    imgMat.get(i,j)[c]=255-imgMat.get(i,j)[c];
                 }
             }
         }
