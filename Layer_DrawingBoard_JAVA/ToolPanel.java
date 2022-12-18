@@ -8,14 +8,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Color;
-import java.awt.Dimension;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+
+import static Layer_DrawingBoard_JAVA.mode_name.*;
 
 public class ToolPanel extends JPanel{
 
@@ -59,6 +60,12 @@ public class ToolPanel extends JPanel{
     JLabel shape_line_thickness_label;
     JComboBox<Integer> shape_line_thickness_JComboBox;
 
+    MyJPanel ImgProc_mode_panel;
+    JButton ImgProc_mode_btn;
+    JLabel img_process_type_label;
+    JComboBox<mode_name> img_process_type_JComboBox;
+    JButton img_process_type_do_btn;
+
     ToolPanel(int w, int h){
 
         this.width = w;
@@ -70,16 +77,14 @@ public class ToolPanel extends JPanel{
         initDrawModePanel();
         initPenToolPanel();
         initShapeToolPanel();
+        initImgProcToolPanel();
 
-        
         draw_tool_panel.add(draw_mode_panel);
         draw_tool_panel.add(shape_tools_panel);
         
         
-        
         add(draw_tool_panel);
     }
-
     private void initDrawModePanel(){
         draw_mode_panel = new MyJPanel(width,height/12);
 
@@ -105,9 +110,49 @@ public class ToolPanel extends JPanel{
                 draw_tool_panel.repaint();
             }
         });
-        
+        ImgProc_mode_btn = new JButton("이미지 처리");
+        ImgProc_mode_btn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                draw_tool_panel.removeAll();
+                draw_tool_panel.add(draw_mode_panel);
+                draw_tool_panel.add(ImgProc_mode_panel);
+                draw_tool_panel.revalidate();
+                draw_tool_panel.repaint();
+            }
+        });
         draw_mode_panel.add(pen_btn);
         draw_mode_panel.add(shape_btn);
+        draw_mode_panel.add(ImgProc_mode_btn);
+    }
+    private void initImgProcToolPanel(){
+        ImgProc_mode_panel = new MyJPanel(width,(height/12)*10);
+
+        img_process_type_label = new JLabel("이미지 처리");
+        ImgProc_mode_panel.add(img_process_type_label);
+        mode_name[] img_process_type_choose = {imageP_Blur,imageP_CannyEdge,imageP_Grayscale,imageP_Colorinverse,imageP_Affine};
+        img_process_type_JComboBox = new JComboBox<>(img_process_type_choose);
+        img_process_type_JComboBox.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //System.out.println(e);
+                Tool.getTool().mode_imageP = img_process_type_JComboBox.getItemAt(img_process_type_JComboBox.getSelectedIndex());
+            }
+        });
+        img_process_type_do_btn=new JButton("실행");
+        img_process_type_do_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LayerManager lm=LayerManager.getLayerManager();
+                Layer l=lm.getCurLayer();
+
+                l.add(Command_Factory.makeCommand(null,null, null,0));
+                System.out.println(Tool.getTool().result);
+            }
+        });
+        ImgProc_mode_panel.add(img_process_type_JComboBox);
+        ImgProc_mode_panel.add(img_process_type_do_btn);
+
     }
 
     private void initPenToolPanel(){

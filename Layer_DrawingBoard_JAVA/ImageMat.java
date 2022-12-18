@@ -134,6 +134,7 @@ public class ImageMat {
 
         // image 처리 후 Draw
         imageProcessing();
+        System.out.println("1");
         if(g2d == null)
             g2d = m_tmpBuffered.createGraphics();
         g2d.drawImage(m_tmpBuffered, 0, 0, null);
